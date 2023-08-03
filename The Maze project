@@ -1,0 +1,66 @@
+def hasPath(maze, start, destination):
+    rows, cols = len(maze), len(maze[0])
+    visited = [[False for _ in range(cols)] for _ in range(rows)]
+
+    def dfs(x, y):
+        if [x, y] == destination:
+            return True
+        
+        if visited[x][y]:
+            return False
+
+        visited[x][y] = True
+
+        # Move left
+        left_x, left_y = x, y
+        while left_y > 0 and maze[left_x][left_y - 1] == 0:
+            left_y -= 1
+        if dfs(left_x, left_y):
+            return True
+
+        # Move right
+        right_x, right_y = x, y
+        while right_y < cols - 1 and maze[right_x][right_y + 1] == 0:
+            right_y += 1
+        if dfs(right_x, right_y):
+            return True
+
+        # Move up
+        up_x, up_y = x, y
+        while up_x > 0 and maze[up_x - 1][up_y] == 0:
+            up_x -= 1
+        if dfs(up_x, up_y):
+            return True
+
+        # Move down
+        down_x, down_y = x, y
+        while down_x < rows - 1 and maze[down_x + 1][down_y] == 0:
+            down_x += 1
+        if dfs(down_x, down_y):
+            return True
+
+        return False
+
+    return dfs(start[0], start[1])
+
+# Test data
+maze = [[0,0,1,0,0], [0,0,0,0,0], [0,0,0,1,0], [1,1,0,1,1], [0,0,0,0,0]]
+start = [0, 4]
+destination = [4, 4]
+
+# Output should be True
+print(hasPath(maze, start, destination))
+
+maze = [[0,0,1,0,0], [0,0,0,0,0], [0,0,0,1,0], [1,1,0,1,1], [0,0,0,0,0]]
+start = [0, 4]
+destination = [3,2]
+
+# Output should be True
+print(hasPath(maze, start, destination))
+
+maze = [[0,0,1,0,0], [0,0,0,0,0], [0,0,0,1,0], [1,1,0,1,1], [0,0,0,0,0]]
+start = [4,3]
+destination = [0,1]
+
+# Output should be True
+print(hasPath(maze, start, destination))
